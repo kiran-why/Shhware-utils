@@ -1,28 +1,55 @@
-#variables
-CC = gcc
-CFLAGS = -Wall -Wextra -I./src
+# utilities name
+UTILS		:= peek
 
-#name for file
-TARGET = peek
+# directories
+SRC_DIR 	:= src
+UTIL_DIR 	:= $(SRC_DIR)/utils
+INC_DIR 	:= $(SRC_DIR)/include
+BUILD_DIR 	:= .build
 
-#list of all .c files
-SRCS = src/utils/peek.c src/core/errors.c
+# include files
+COMMON_SRCS	:= $(INC_DIR)/errors.c
+COMMON_OBJS := $(COMMON_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
-#objects from c files
-OBJS = $(SRCS:.c=.o)
+# source files
+UTIL_SRCS 	:= $(addprefix $(UTIL_DIR)/, $(addsuffix .c, $(UTILS)))
+UTIL_OBJS	:= $(UTIL_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
-#main rule
-all: $(TARGET)
+# objects and dependings
+OBJS 		:= $(COMMON_OBJS) $(UTIL_OBJS)
+DEPS        := $(OBJS:.o=.d)
 
-#rules for make
-$(TARGET): $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET)
+# compiler and flags
+CC 			:= gcc
+CFLAGS		:= -Wall -Wextra -g
+CPPFLAGS 	:= -I$(INC_DIR) -MMD -MP
 
-#rule for compiler
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# misc
+RM 			:= rm -rf
+MAKEFLAGS 	+= --no-print-directory
 
-#remove trash
+
+# Recipes
+all: $(UTILS)
+
+# build rule (builds every util separately)
+# $@ - target name, $^ - all dependigs
+$(UTILS): %: $(BUILD_DIR)/utils/%.o $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+# compiler rule (.c from src/ -> .o in .build/)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D) # create .build/utils 
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(OBJS) $(TARGET)
+	$(RM) $(BUILD_DIR)
 
+fclean: clean
+	$(RM) $(UTILS)
+
+re: fclean all
+
+-include $(DEPS) # include generated dependings files
+
+.PHONY: all clean fclean re

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <error.h>
+#include <errors.h>
 
-void err(const char *message)
+void die(const char *message)
 {
     perror(message);
     exit(1);

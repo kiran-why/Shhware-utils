@@ -1,7 +1,7 @@
 //without it compiler will punish you if u use that lib more than one time
-#indef ERROR_H
+#ifndef ERROR_H
 #define ERROR_H
 
-void err(const char *message);
+void die(const char *message);
 
-#ednif
+#endif
