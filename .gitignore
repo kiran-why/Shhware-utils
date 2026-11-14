@@ -1,3 +1,6 @@
-//ignores temp files
+# ignores temp files
 *.swp
-*.swo
+
+# ignores compiled objs files
+.build/
+
