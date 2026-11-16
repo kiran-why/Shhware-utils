@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {   
-    // error if not enough args
+    // not enough arguements
     if (argc<2)
     {
         die("Not enough arguements");
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     // peek cannot open file
     if (file_descriptor<0)
         {
-            die(argv[1]);
+            die("Shh...");
         }
     
     // amount of bytes to read
@@ -27,12 +27,12 @@ int main(int argc, char* argv[])
     // reads file till end
     while (1)
     {
-        bytes_read = read(file_descriptor, buffer, 1024);
+        bytes_read = read(file_descriptor, buffer, sizeof(buffer));
 
         // error while reading
         if (bytes_read == -1)
         {
-            die("read");
+            die("Shh...");
         }
         
         // signs end of file and stops the cycle
