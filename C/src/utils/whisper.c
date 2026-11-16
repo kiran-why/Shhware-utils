@@ -10,7 +10,6 @@ int main(int argc, char* argv[])
         write(STDOUT_FILENO," " , 1); // space after every arguement   
     }
     
-    // empty srting after cycle
     write(STDOUT_FILENO, "\n", strlen("\n"));
 
     return 0;

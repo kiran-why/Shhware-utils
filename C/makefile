@@ -1,5 +1,5 @@
 # utilities name
-UTILS		:= peek whisper
+UTILS		:= peek whisper stare
 
 # directories
 SRC_DIR 	:= src
