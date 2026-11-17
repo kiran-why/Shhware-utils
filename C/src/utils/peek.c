@@ -6,12 +6,13 @@
 // data: bytes to write
 // bytes_count: number of bytes in data
 //
-//Exit via die() if write fails
+// Exit via die() if write fails
 static void xwrite(const char *data, size_t bytes_count)
 {
     if (bytes_count == 0) return;
 
-    if (write(STDOUT_FILENO, data, bytes_count) < 0) die ("write");
+    if (write(STDOUT_FILENO, data, bytes_count) < 0) 
+        die ("write");
 }
 
 

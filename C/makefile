@@ -1,5 +1,5 @@
 # utilities name
-UTILS		:= peek whisper stare tap cell erase
+UTILS		:= peek whisper stare tap cell erase where
  
 # directories
 SRC_DIR 	:= src

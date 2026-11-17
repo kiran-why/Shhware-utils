@@ -12,7 +12,8 @@ static void xwrite(const char *data, size_t bytes_count)
 {
     if (bytes_count == 0) return;
 
-    if (write(STDOUT_FILENO, data, bytes_count) < 0) die ("write");
+    if (write(STDOUT_FILENO, data, bytes_count) < 0) 
+        die ("write");
 }
 
 
