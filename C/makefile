@@ -1,6 +1,6 @@
 # utilities name
-UTILS		:= peek whisper stare
-
+UTILS		:= peek whisper stare tap
+ 
 # directories
 SRC_DIR 	:= src
 UTIL_DIR 	:= $(SRC_DIR)/utils
