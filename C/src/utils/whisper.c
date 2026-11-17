@@ -1,16 +1,31 @@
+#include "errors.h"
 #include <unistd.h>
 #include <string.h>
-#include <errors.h>
+
+
+// xwrite: write bytes to stdout, or exit on failure
+// data: bytes to write
+// bytes_count: number of bytes in data
+//
+// Exits via die() if the write fails
+static void xwrite(const char *data, size_t bytes_count)
+{
+    if (bytes_count == 0) return;
+
+    if (write(STDOUT_FILENO, data, bytes_count) < 0) die ("write");
+}
+
+
 
 int main(int argc, char* argv[])
 {   
     for (int i=1; i<argc; i++)
     {
-        write(STDOUT_FILENO, argv[i], strlen(argv[i]));
-        write(STDOUT_FILENO," " , 1); // space after every arguement   
+        xwrite(argv[i], strlen(argv[i]));
+        xwrite(" ",1);
     }
     
-    write(STDOUT_FILENO, "\n", strlen("\n"));
+    xwrite("\n", 1);
 
     return 0;
 
