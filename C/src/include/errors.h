@@ -1,4 +1,4 @@
-//without it compiler will punish you if u use that lib more than one time
+//without it compiler will punish you if u use that .h more than one time
 #ifndef ERROR_H
 #define ERROR_H
 
