@@ -1,6 +1,20 @@
+#include "errors.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include <errors.h>
+
+// xwrite: write bytes to stdout, or exit on failure
+// data: bytes to write
+// bytes_count: number of bytes in data
+//
+//Exit via die() if write fails
+static void xwrite(const char *data, size_t bytes_count)
+{
+    if (bytes_count == 0) return;
+
+    if (write(STDOUT_FILENO, data, bytes_count) < 0) die ("write");
+}
+
+
 
 int main(int argc, char* argv[])
 {   
@@ -10,8 +24,7 @@ int main(int argc, char* argv[])
 
     int file_descriptor = open(argv[1], O_RDONLY);
     
-    if (file_descriptor<0)
-        die("open");
+    if (file_descriptor<0)  die("open");
    
 
     char buffer[1024];
@@ -22,14 +35,11 @@ int main(int argc, char* argv[])
     {
         bytes_read = read(file_descriptor, buffer, sizeof(buffer));
 
-        if (bytes_read == -1)
-            die("read");
-       
+        if (bytes_read == -1) die("read");
 
-        if (bytes_read == 0)
-            break;
+        if (bytes_read == 0) break;
         
-        write(STDOUT_FILENO, buffer, bytes_read);
+        xwrite(buffer, bytes_read);
     }
   
     close(file_descriptor);
