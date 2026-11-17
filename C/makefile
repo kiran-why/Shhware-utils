@@ -1,5 +1,5 @@
 # utilities name
-UTILS		:= peek whisper stare tap cell erase where mimic shift
+UTILS		:= peek whisper stare tap cell erase where mimic shift dose
  
 # directories
 SRC_DIR 	:= src
