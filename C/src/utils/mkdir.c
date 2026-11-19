@@ -5,7 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-
+#include <errno.h>
 
 // possible flags
 typedef struct struct_opts {
@@ -37,22 +37,29 @@ static void parse_flags(int argc, char **argv, type_opts *opts)
 }
 
 
-// just_cell: creates a single directory
+// just_mkdir: creates a single directory
 // path: the directory path to create
+// ignore_exist: if non-zero, ingnores the error if dir already exists
 //
 // Exits via die() on other failures (e.g., permission denied)
-static void just_cell(const char *path)
+static void just_mkdir(const char *path, int ignore_exist)
 {
-      if (mkdir(path, 0755) < 0) die(path);
+    if (mkdir(path, 0755) < 0)
+    {
+        if (ignore_exist  && errno == EEXIST)
+            return;
+        
+        die(path);
+    }
 }
 
 
-// flagged_cell: creates a directory and its parents (-p flag logic)
+// flagged_mkdir: creates a directory and its parents (-p flag logic)
 // path: the directory path to create (modifiable copy)
 // opts: pointer to the options structure
 //
 // Exits via die() on failure
-static void flagged_cell(char *path, const type_opts *opts)
+static void flagged_mkdir(char *path, const type_opts *opts)
 {
     if (opts -> parent_dir)     // -p flag logic
     {
@@ -63,14 +70,14 @@ static void flagged_cell(char *path, const type_opts *opts)
             if (*cur_pos == '/' && cur_pos != path)     // if found not root /, then we found parent
             {   
                 *cur_pos ='\0';                         // temporarily replace / with \0 to isolate parent path
-                just_cell(path);
+                just_mkdir(path, 1);
                 *cur_pos = '/';                         // restore slash to continue scanning rest of the path
             }
             
             cur_pos++;
         }
 
-        just_cell(path);    // create last dir in the path
+        just_mkdir(path, 1);    // create last dir in the path
     }
 } 
 
@@ -89,11 +96,11 @@ int main(int argc, char *argv[])
         if (opts.parent_dir == 1)
         {   // strdup creates a copy of the string cuz flagged_cell modifies it
             char *path_copy = strdup(argv[i]);      
-            flagged_cell(path_copy, &opts);
+            flagged_mkdir(path_copy, &opts);
             free(path_copy);    // free allocated memory to prevent memory leaks
         }
         else
-            just_cell(argv[i]);
+            just_mkdir(argv[i], 0);
     }                 
 
     return 0;
