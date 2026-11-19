@@ -24,11 +24,11 @@ Here is the current list of tools available in Shhware-utils (with their GNU cor
 
 *   **`peek`** (*cat*) - Reads a file and prints its contents to standard output.
 *   **`whisper`** (*echo*) - Prints the provided arguments to standard output.
-*   **`cell`** (*mkdir*) - Creates directories.
+*   **`mkdir`** (*mkdir*) - Creates directories.
 *   **`erase`** (*rm*) - Removes (unlinks) files.
-*   **`dose`** (*head*) - Outputs the first N lines of a file.
-*   **`stare`** (*ls*) - Lists the contents of a directory.
+*   **`head`** (*head*) - Outputs the first N lines of a file.
+*   **`ls`** (*ls*) - Lists the contents of a directory.
 *   **`tap`** (*touch*) - Creates empty files or updates their timestamps.
 *   **`where`** (*pwd*) - Prints the current working directory.
-*   **`mimic`** (*cp*) - Copies a file from source to destination.
-*   **`shift`** (*mv*) - Moves or renames files and directories.
+*   **`cp`** (*cp*) - Copies a file from source to destination.
+*   **`mv`** (*mv*) - Moves or renames files and directories.
