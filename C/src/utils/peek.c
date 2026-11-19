@@ -21,7 +21,7 @@ static void parse_flags(int argc, char **argv, type_opts *opts)
 {
     int opt;
 
-    while ((opt = getopt(argc,argv, "n")) > 0)
+    while ((opt = getopt(argc, argv, "n")) > 0)
     {     
         switch (opt)
         {
@@ -62,9 +62,7 @@ static void just_peek(int fd)
     ssize_t bytes_read;
 
     while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0)
-    {
         xwrite(buffer, bytes_read);
-    }
 
     if (bytes_read < 0) die("read");
 }
