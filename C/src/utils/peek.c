@@ -6,7 +6,7 @@
 
 
 // possible flags
-typedef struct struct_opts{
+typedef struct struct_opts {
     int numbered_lines; // -n
 } type_opts;
 
@@ -23,12 +23,16 @@ static void parse_flags(int argc, char **argv, type_opts *opts)
 
     while ((opt = getopt(argc,argv, "n")) > 0)
     {     
-        if (opt == 'n')    
-             opts -> numbered_lines = 1;
-        else
-            die("<file>");
-                    
-         
+        switch (opt)
+        {
+            case 'n':
+                opts -> numbered_lines = 1;
+                break;
+
+            case '?':
+
+            default: die("Usage: peek [-n] [file]");
+        } 
     }                                           
 }
 
@@ -81,7 +85,7 @@ static void flagged_peek(int fd, const type_opts *opts)
 
     while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0)
     {
-        if (opts->numbered_lines) // n flag logic
+        if (opts->numbered_lines)   // -n flag logic
          {
             for (ssize_t i = 0; i < bytes_read; i++)
             {
